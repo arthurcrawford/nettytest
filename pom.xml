@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.co.b2esoftware</groupId>
-    <artifactId>multi-jetty</artifactId>
+    <artifactId>nettytest</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    <name>multi-jetty</name>
+    <name>nettytest</name>
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
@@ -43,6 +43,15 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>create-jar-with-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
