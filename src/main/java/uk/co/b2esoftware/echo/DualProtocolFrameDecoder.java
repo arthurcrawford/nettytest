@@ -18,9 +18,22 @@ import java.nio.ByteBuffer;
  * the binary protocol with the fallback delimiter based text protocol.  If it detects that the first 4 bytes in the
  * buffer are not according to the binary protocol it replaces itself with the delimiter frame decoder to which it
  * passes the whole buffer.
+ *
+ * The protocol is:
+ *
+ *    1st 2 bytes  = message length
+ *    next 2 bytes = length bytes end marker (to validate that the preceding 2 bytes are the length)
+ *    next length bytes = message
+ *
+ * The expected length bytes are:
+ *
+ *     Hex    16 bit unsigned  string
+ *     3C3E   15422            <>
  */
 public class DualProtocolFrameDecoder extends FrameDecoder
 {
+    private final int LENGTH_END_BYTES = 15422;
+
     @Override
     protected Object decode(final ChannelHandlerContext ctx, final Channel channel,
                             final ChannelBuffer buffer) throws Exception
@@ -46,7 +59,7 @@ public class DualProtocolFrameDecoder extends FrameDecoder
         final short lengthEndMarker = buffer.readShort();
 
         // If it's not a correct length end marker, just return the frame as all available bytes
-        if (lengthEndMarker != 15422)
+        if (lengthEndMarker != LENGTH_END_BYTES)
         {
             // Binary protocol not detected - make the fallback delimiter decoder next in the chain instead
             ctx.getPipeline().addLast("delimiterdecoder", new DelimiterBasedFrameDecoder(256, true, Delimiters.lineDelimiter()));

@@ -10,8 +10,15 @@ and a text-based test protocol.
 
 To build the server.
 
-    mvn clean install
+    $ mvn clean install
 
 To run.
 
-    java -jar target/nettytest-1.0-jar-with-dependencies.jar
+    $ java -jar target/nettytest-1.0-jar-with-dependencies.jar
+
+To test.
+
+    $ cat TestMessage - | nc localhost 9797 ...
+
+    Client connected successfully
+    1385120339562973000: 48656C6C6F3A2D29
